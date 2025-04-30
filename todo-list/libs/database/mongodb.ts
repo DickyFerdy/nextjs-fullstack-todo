@@ -1,5 +1,5 @@
 import mongoose, { Mongoose } from "mongoose";
-import { DB_URI, NODE_ENV } from "../config/env";
+import { DB_URI, NODE_ENV } from "../../config/env";
 
 interface MongooseCache {
     conn: Mongoose | null;
