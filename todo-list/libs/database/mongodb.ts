@@ -1,5 +1,5 @@
 import mongoose, { Mongoose } from "mongoose";
-import { DB_URI, NODE_ENV } from "../../config/env";
+import { DB_URI, NODE_ENV } from "@/config/env";
 
 interface MongooseCache {
     conn: Mongoose | null;
@@ -18,7 +18,7 @@ const connectToDatabase = async (): Promise<Mongoose> => {
     }
 
     if (!DB_URI) {
-        throw new Error(`Please define the MONGODB_URI environment variable inside .env.<dev/prod>.local`)
+        throw new Error(`Please define the MONGODB_URI environment variable inside .env.local`)
     };
 
     try {
