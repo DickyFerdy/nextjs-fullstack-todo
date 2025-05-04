@@ -8,5 +8,9 @@ export type Todo = {
 
 export type TodoInput = {
     title: string;
-    completed?: boolean;
+};
+
+export type TodoUpdateInput = {
+    _id: string
+    completed: boolean;
 };
