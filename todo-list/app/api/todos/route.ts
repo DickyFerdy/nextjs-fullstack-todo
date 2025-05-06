@@ -1,8 +1,8 @@
-import { createTodo, getTodos, updateTodo } from "@/libs/api/handlers/todo.handler";
+import { createTodo, deleteTodo, getTodos, updateTodo } from "@/libs/api/handlers/todo.handler";
 import connectToDatabase from "@/libs/database/mongodb";
 import { NextResponse } from "next/server";
 import type { ApiResponse } from "@/types/api";
-import type { Todo, TodoInput, TodoUpdateInput } from "@/types/todo";
+import type { Todo, TodoDeleteInput, TodoInput, TodoUpdateInput } from "@/types/todo";
 import { errorResponse } from "@/libs/utils/apiResponse";
 
 export async function GET(): Promise<NextResponse<ApiResponse<Todo[]>>> {
@@ -78,6 +78,37 @@ export async function PATCH(request: Request): Promise<NextResponse<ApiResponse<
         return NextResponse.json({
             success: true,
             data: updatedTodo
+        }, { status: 200 });
+
+    } catch (error) {
+        if (error instanceof Error) {
+            return errorResponse(error.message);
+        }
+
+        return errorResponse("Unknown error occured");
+    }
+};
+
+export async function DELETE(request: Request): Promise<NextResponse<ApiResponse<void>>> {
+    try {
+        await connectToDatabase();
+
+        const body = await request.json();
+        const { _id } = body as TodoDeleteInput;
+
+        if (!_id || typeof _id !== "string") {
+            return errorResponse("ID is required", 400);
+        }
+
+        const deletedTodo = await deleteTodo(_id);
+
+        if (!deletedTodo) {
+            return errorResponse("Todo not found", 404);
+        }
+
+        return NextResponse.json({
+            success: true,
+            message: "Todo deleted successfully",
         }, { status: 200 });
 
     } catch (error) {

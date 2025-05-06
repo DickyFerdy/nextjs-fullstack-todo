@@ -14,3 +14,7 @@ export type TodoUpdateInput = {
     _id: string
     completed: boolean;
 };
+
+export type TodoDeleteInput = {
+    _id: string;
+};

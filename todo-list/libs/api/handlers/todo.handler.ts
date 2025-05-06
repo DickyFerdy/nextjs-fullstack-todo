@@ -11,11 +11,17 @@ export const createTodo = async (todo: TodoInput): Promise<TodoType> => {
     return newTodo.toObject() as TodoType;
 };
 
-export const updateTodo = async ({ _id, completed }: TodoUpdateInput): Promise<TodoType> => {
+export const updateTodo = async ({ _id, completed }: TodoUpdateInput): Promise<TodoType | null> => {
     const updatedTodo = await Todo.findByIdAndUpdate(
         _id,
         { completed },
         { new: true }
     );
-    return updatedTodo.toObject() as TodoType;
+
+    return !updatedTodo ? null : updatedTodo.toObject() as TodoType;
+};
+
+export const deleteTodo = async (_id: string): Promise<boolean> => {
+    const deleteTodo = await Todo.findByIdAndDelete(_id);
+    return deleteTodo !== null;
 };
