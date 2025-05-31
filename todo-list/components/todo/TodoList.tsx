@@ -13,7 +13,7 @@ export default function TodoList({
 }: TodoListProps) {
     return (
         <AnimatePresence initial={false}>
-            {todos.map((todo, index) => (
+            {todos.map((todo, _) => (
                 <motion.li
                     key={todo._id}
                     initial={{
